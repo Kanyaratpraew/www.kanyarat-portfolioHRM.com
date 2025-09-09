@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ระบบคำสั่งงาน</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        
+        input,
+        select {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 100%;
+        }
+        
+        button {
+            padding: 5px 10px;
+            margin-right: 5px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="task-header">
+        <h2>📋 คำสั่งงาน</h2>
+        <p>สร้างและจัดการคำสั่งงานภายในองค์กร</p>
+    </section>
+
+    <section class="task-form">
+        <h3>➕ สร้างคำสั่งงานใหม่</h3>
+        <form id="taskForm">
+            <label for="taskTitle">หัวข้อคำสั่ง:</label>
+            <input type="text" id="taskTitle" required>
+
+            <label for="taskAssignee">ผู้รับผิดชอบ:</label>
+            <input type="text" id="taskAssignee" required>
+
+            <label for="taskDeadline">กำหนดส่ง:</label>
+            <input type="date" id="taskDeadline" required>
+
+            <label for="taskStatus">สถานะ:</label>
+            <select id="taskStatus">
+      <option value="รอดำเนินการ">รอดำเนินการ</option>
+      <option value="กำลังดำเนินการ">กำลังดำเนินการ</option>
+      <option value="เสร็จสิ้น">เสร็จสิ้น</option>
+    </select>
+
+            <button type="submit">บันทึกคำสั่งงาน</button>
+        </form>
+    </section>
+
+    <section class="task-list">
+        <h3>📑 รายการคำสั่งงาน</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>หัวข้อ</th>
+                    <th>ผู้รับผิดชอบ</th>
+                    <th>กำหนดส่ง</th>
+                    <th>สถานะ</th>
+                    <th>การจัดการ</th>
+                </tr>
+            </thead>
+            <tbody id="taskTableBody"></tbody>
+        </table>
+    </section>
+
+    <script>
+        let tasks = [];
+        let editIndex = null;
+
+        document.getElementById("taskForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const title = document.getElementById("taskTitle").value;
+            const assignee = document.getElementById("taskAssignee").value;
+            const deadline = document.getElementById("taskDeadline").value;
+            const status = document.getElementById("taskStatus").value;
+
+            const taskData = {
+                title,
+                assignee,
+                deadline,
+                status
+            };
+
+            if (editIndex !== null) {
+                tasks[editIndex] = taskData;
+                editIndex = null;
+            } else {
+                tasks.push(taskData);
+            }
+
+            this.reset();
+            renderTasks();
+        });
+
+        function renderTasks() {
+            const tbody = document.getElementById("taskTableBody");
+            tbody.innerHTML = "";
+
+            tasks.forEach((task, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+      <td>${task.title}</td>
+      <td>${task.assignee}</td>
+      <td>${task.deadline}</td>
+      <td>${task.status}</td>
+      <td>
+        <button onclick="editTask(${index})">แก้ไข</button>
+        <button onclick="deleteTask(${index})">ลบ</button>
+      </td>
+    `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function editTask(index) {
+            const task = tasks[index];
+            document.getElementById("taskTitle").value = task.title;
+            document.getElementById("taskAssignee").value = task.assignee;
+            document.getElementById("taskDeadline").value = task.deadline;
+            document.getElementById("taskStatus").value = task.status;
+            editIndex = index;
+        }
+
+        function deleteTask(index) {
+            if (confirm("คุณต้องการลบคำสั่งงานนี้ใช่หรือไม่?")) {
+                tasks.splice(index, 1);
+                renderTasks();
+            }
+        }
+    </script>
+
+</body>
+
+</html>

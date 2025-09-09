@@ -1,0 +1,845 @@
+/* ฟอนต์และพื้นฐาน */
+
+body {
+    font-family: 'Prompt', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Navbar */
+
+.navbar {
+    background-color: #005baa;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.user-info {
+    font-size: 0.9rem;
+}
+
+
+/* Hero section */
+
+.hero {
+    text-align: center;
+    padding: 2rem;
+    background-color: #eaf4ff;
+}
+
+
+/* Summary cards */
+
+.summary-cards {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    text-align: center;
+}
+
+.dashboard {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 2rem auto;
+    max-width: 1000px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard h2 {
+    text-align: center;
+    color: #005baa;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard .card {
+    background-color: #f4f6f8;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.chart-section h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+
+/* Announcements */
+
+.announcements {
+    padding: 1rem 2rem;
+}
+
+.announcements ul {
+    padding-left: 1rem;
+}
+
+
+/* Search */
+
+.search-section {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.search-bar {
+    width: 80%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+
+/* Chart */
+
+.chart-section {
+    padding: 2rem;
+    text-align: center;
+}
+
+
+/* Dark mode */
+
+.dark-mode {
+    background-color: #1e1e1e;
+    color: #f4f4f4;
+}
+
+
+/* Footer */
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #eee;
+    margin-top: 2rem;
+}
+
+
+/* ปุ่มพื้นฐาน */
+
+.btn {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin: 0.2rem;
+    color: white;
+}
+
+
+/* ปุ่มแต่ละประเภท */
+
+.btn-delete {
+    background-color: #e53935;
+}
+
+.btn-delete:hover {
+    background-color: #c62828;
+}
+
+.btn-save {
+    background-color: #43a047;
+}
+
+.btn-save:hover {
+    background-color: #2e7d32;
+}
+
+.btn-edit {
+    background-color: #fb8c00;
+}
+
+.btn-edit:hover {
+    background-color: #ef6c00;
+}
+
+.btn-view {
+    background-color: #1e88e5;
+}
+
+.btn-view:hover {
+    background-color: #1565c0;
+}
+
+.btn-status {
+    background-color: #6d4c41;
+}
+
+.btn-status:hover {
+    background-color: #4e342e;
+}
+
+.btn-message {
+    background-color: #8e24aa;
+}
+
+.btn-message:hover {
+    background-color: #6a1b9a;
+}
+
+
+/* ส่วนจัดการคำสั่งงาน */
+
+.task-header,
+.task-form,
+.task-list {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.task-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 500px;
+}
+
+.task-form input,
+.task-form select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+
+/* ตารางคำสั่งงาน */
+
+.task-list table,
+.employee-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.task-list th,
+.task-list td,
+.employee-list th,
+.employee-list td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.task-list th,
+.employee-list th {
+    background-color: #005baa;
+    color: white;
+}
+
+.task-list tr:nth-child(even),
+.employee-list tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.task-list tr:hover,
+.employee-list tr:hover {
+    background-color: #e0f0ff;
+}
+
+
+/* ส่วนหัวประกาศ */
+
+.announcement-header {
+    background-color: #005baa;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.announcement-header h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.announcement-header p {
+    font-size: 1.1rem;
+}
+
+
+/* รายการประกาศ */
+
+.announcement-list {
+    display: grid;
+    gap: 1.5rem;
+    padding: 1rem 2rem;
+}
+
+.announcement-card {
+    background-color: #ffffff;
+    border-left: 6px solid #005baa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.announcement-card h3 {
+    margin-bottom: 0.5rem;
+    color: #005baa;
+}
+
+.announcement-card p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+}
+
+.announcement-note {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.announcement-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #0077cc;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.announcement-link:hover {
+    color: #005baa;
+}
+
+
+/* ส่วนจัดการพนักงาน */
+
+.employee-header,
+.employee-form,
+.employee-list {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.employee-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 500px;
+}
+
+.employee-form input,
+.employee-form select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+
+/* ตารางพนักงาน */
+
+.employee-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.employee-list th,
+.employee-list td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.employee-list th {
+    background-color: #005baa;
+    color: white;
+}
+
+.employee-list tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.employee-list tr:hover {
+    background-color: #e0f0ff;
+}
+
+
+/* ส่วนจัดการโปรไฟล์ */
+
+.profile-header,
+.profile-form {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 500px;
+}
+
+.profile-form input,
+.profile-form select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.profile-picture-upload {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+
+/* ส่วนจัดการรหัสผ่าน */
+
+.password-header,
+.password-form {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.password-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 400px;
+}
+
+.password-form input {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+
+/* ส่วนจัดการการตั้งค่า */
+
+.settings-header,
+.settings-form {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.settings-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 400px;
+}
+
+.settings-form select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+
+/* ส่วนจัดการข้อความ */
+
+.message-header,
+.message-form,
+.message-list {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.message-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 500px;
+}
+
+.message-form input,
+.message-form textarea {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.message-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+
+/* ตารางข้อความ */
+
+.message-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.message-list th,
+.message-list td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.message-list th {
+    background-color: #005baa;
+    color: white;
+}
+
+.message-list tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.message-list tr:hover {
+    background-color: #e0f0ff;
+}
+
+
+/* ส่วนจัดการรายงาน */
+
+.report-header,
+.report-form,
+.report-list {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.report-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 500px;
+}
+
+.report-form input,
+.report-form select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+
+/* ตารางรายงาน */
+
+.report-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.report-list th,
+.report-list td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.report-list th {
+    background-color: #005baa;
+    color: white;
+}
+
+.report-list tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.report-list tr:hover {
+    background-color: #e0f0ff;
+}
+
+
+/* ส่วนจัดการการตั้งค่า */
+
+.settings-header,
+.settings-form {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.settings-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 400px;
+}
+
+.settings-form select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+
+/* ส่วนจัดการการแจ้งเตือน */
+
+.notification-header,
+.notification-form,
+.notification-list {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/*ส่วนคำนวณเงินเดือนและโอที*/
+
+.salary-header,
+.salary-form,
+.salary-list {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.salary-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 500px;
+}
+
+.salary-form input,
+.salary-form select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+
+/* ตารางเงินเดือนและโอที */
+
+.salary-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.salary-list th,
+.salary-list td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.salary-list th {
+    background-color: #005baa;
+    color: white;
+}
+
+.salary-list tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.salary-list tr:hover {
+    background-color: #e0f0ff;
+}
+
+.notification-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 500px;
+}
+
+
+/* ส่วนจัดการการลา */
+
+.leave-header,
+.leave-form,
+.leave-list {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.leave-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 500px;
+}
+
+.leave-form input,
+.leave-form select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+
+/* ตารางการลา */
+
+.leave-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.leave-list th,
+.leave-list td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.leave-list th {
+    background-color: #005baa;
+    color: white;
+}
+
+.leave-list tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.leave-list tr:hover {
+    background-color: #e0f0ff;
+}
+
+
+/* ปรับแต่งเพิ่มเติมสำหรับอุปกรณ์เคลื่อนที่ */
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .nav-links {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    .summary-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+    .search-bar {
+        width: 100%;
+    }
+}
+
+
+/* เพิ่มเติมสำหรับการจัดการรับสมัครงาน */
+
+.recruitment-header,
+.recruitment-form,
+.recruitment-list {
+    padding: 2rem;
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ตารางรับสมัครงาน */
+
+.recruitment-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.recruitment-list th,
+.recruitment-list td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+
+/* ฟอร์มรับสมัครงาน */
+
+.recruitment-form form {
+    display: grid;
+    gap: 1rem;
+    max-width: 500px;
+}
+
+
+/*การตั้งค่า*/
+
+.recruitment-form input,
+.recruitment-form select,
+.recruitment-form textarea {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.recruitment-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}

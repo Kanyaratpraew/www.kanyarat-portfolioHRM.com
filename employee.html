@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ระบบจัดการพนักงาน</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        th {
+            background-color: #f0f0f0;
+        }
+        
+        button {
+            margin: 2px;
+            padding: 5px 10px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="employee-filter" style="max-width: 600px; margin: auto;">
+        <h2>🔍 กรองข้อมูลพนักงาน</h2>
+        <label for="department">แผนก:</label>
+        <select id="department">
+    <option value="">ทั้งหมด</option>
+    <option value="การเงิน">การเงิน</option>
+    <option value="ทรัพยากรบุคคล">ทรัพยากรบุคคล</option>
+    <option value="เทคโนโลยีสารสนเทศ">เทคโนโลยีสารสนเทศ</option>
+  </select>
+
+        <label for="status">สถานะ:</label>
+        <select id="status">
+    <option value="">ทั้งหมด</option>
+    <option value="ทำงานอยู่">ทำงานอยู่</option>
+    <option value="ลาออก">ลาออก</option>
+  </select>
+
+        <button onclick="filterEmployees()">ค้นหา</button>
+    </section>
+
+    <section class="employee-list" style="max-width: 800px; margin: 30px auto; display: none;" id="employeeSection">
+        <h2>👥 ข้อมูลพนักงาน</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>รหัส</th>
+                    <th>ชื่อ</th>
+                    <th>ตำแหน่ง</th>
+                    <th>แผนก</th>
+                    <th>เงินเดือน</th>
+                    <th>สถานะ</th>
+                    <th>การจัดการ</th>
+                </tr>
+            </thead>
+            <tbody id="employeeBody"></tbody>
+        </table>
+    </section>
+
+    <!-- Modal ดูรายละเอียด -->
+    <div id="detailModal" class="modal">
+        <h3>📋 รายละเอียดพนักงาน</h3>
+        <div id="detailContent"></div>
+        <button onclick="closeModal()">ปิด</button>
+    </div>
+
+    <!-- Modal แก้ไข -->
+    <div id="editModal" class="modal">
+        <h3>✏️ แก้ไขข้อมูลพนักงาน</h3>
+        <form id="editForm" onsubmit="saveEdit(event)">
+            <input type="hidden" id="editId" />
+            <label>ชื่อ:</label><input type="text" id="editName" /><br />
+            <label>นามสกุล:</label><input type="text" id="editSurname" /><br />
+            <label>ตำแหน่ง:</label><input type="text" id="editPosition" /><br />
+            <label>แผนก:</label><input type="text" id="editDepartment" /><br />
+            <label>เงินเดือน:</label><input type="text" id="editSalary" /><br />
+            <label>สถานะ:</label><input type="text" id="editStatus" /><br />
+            <label>วันที่เริ่มทำงาน:</label><input type="date" id="editStartDate" /><br /><br />
+            <button type="submit">บันทึก</button>
+            <button type="button" onclick="closeModal()">ยกเลิก</button>
+        </form>
+    </div>
+
+    <!-- กราฟ -->
+    <section style="margin: 50px auto; max-width: 800px;">
+        <div style="background-color: #e0f7fa; padding: 20px; border-radius: 8px;">
+            <h2>📊 กราฟแสดงจำนวนพนักงานในแต่ละแผนก</h2>
+            <canvas id="employeeChart" width="400" height="200"></canvas>
+        </div>
+    </section>
+
+    <script>
+        const employees = [{
+            id: "001",
+            name: "สมชาย",
+            surname: "ใจดี",
+            position: "บัญชี",
+            department: "การเงิน",
+            salary: "30,000",
+            status: "ทำงานอยู่",
+            startDate: "2022-01-10"
+        }, {
+            id: "002",
+            name: "สมหญิง",
+            surname: "สุขใจ",
+            position: "ทรัพยากรบุคคล",
+            department: "ทรัพยากรบุคคล",
+            salary: "40,000",
+            status: "ทำงานอยู่",
+            startDate: "2021-05-01"
+        }, {
+            id: "003",
+            name: "สมชาย",
+            surname: "เก่งดี",
+            position: "เทคโนโลยีสารสนเทศ",
+            department: "เทคโนโลยีสารสนเทศ",
+            salary: "50,000",
+            status: "ทำงานอยู่",
+            startDate: "2023-03-15"
+        }];
+
+        function filterEmployees() {
+            const dept = document.getElementById("department").value;
+            const status = document.getElementById("status").value;
+            const tbody = document.getElementById("employeeBody");
+            const section = document.getElementById("employeeSection");
+
+            const filtered = employees.filter(emp =>
+                (dept === "" || emp.department === dept) &&
+                (status === "" || emp.status === status)
+            );
+
+            tbody.innerHTML = "";
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="color:red;">ไม่พบข้อมูลพนักงานตามเงื่อนไข</td></tr>`;
+            } else {
+                filtered.forEach(emp => {
+                    tbody.innerHTML += `
+        <tr>
+          <td>${emp.id}</td>
+          <td>${emp.name} ${emp.surname}</td>
+          <td>${emp.position}</td>
+          <td>${emp.department}</td>
+          <td>${emp.salary}</td>
+          <td>${emp.status}</td>
+          <td>
+            <button onclick="showDetails('${emp.id}')">ดูรายละเอียด</button>
+            <button onclick="editEmployee('${emp.id}')">แก้ไข</button>
+          </td>
+        </tr>
+      `;
+                });
+            }
+
+            section.style.display = "block";
+        }
+
+        function showDetails(id) {
+            const emp = employees.find(e => e.id === id);
+            document.getElementById("detailContent").innerHTML = `
+    <p><strong>ชื่อ:</strong> ${emp.name}</p>
+    <p><strong>นามสกุล:</strong> ${emp.surname}</p>
+    <p><strong>ตำแหน่ง:</strong> ${emp.position}</p>
+    <p><strong>แผนก:</strong> ${emp.department}</p>
+    <p><strong>เงินเดือน:</strong> ${emp.salary} บาท</p>
+    <p><strong>สถานะ:</strong> ${emp.status}</p>
+    <p><strong>วันที่เริ่มทำงาน:</strong> ${emp.startDate}</p>
+  `;
+            document.getElementById("detailModal").style.display = "block";
+        }
+
+        function editEmployee(id) {
+            const emp = employees.find(e => e.id === id);
+            document.getElementById("editId").value = emp.id;
+            document.getElementById("editName").value = emp.name;
+            document.getElementById("editSurname").value = emp.surname;
+            document.getElementById("editPosition").value = emp.position;
+            document.getElementById("editDepartment").value = emp.department;
+            document.getElementById("editSalary").value = emp.salary;
+            document.getElementById("editStatus").value = emp.status;
+            document.getElementById("editStartDate").value = emp.startDate;
+            document.getElementById("editModal").style.display = "block";
+        }
+
+        function saveEdit(event) {
+            event.preventDefault();
+            const id = document.getElementById("editId").value;
+            const emp = employees.find(e => e.id === id);
+            emp.name = document.getElementById("editName").value;
+            emp.surname = document.getElementById("editSurname").value;
+            emp.position = document.getElementById("editPosition").value;
+            emp.department = document.getElementById("editDepartment").value;
+            emp.salary = document.getElementById("editSalary").value;
+            emp.status = document.getElementById("editStatus").value;
+            emp.startDate = document.getElementById("editStartDate").value;
+            closeModal();
+            filterEmployees();
+        }
+
+        function closeModal() {
+            document.getElementById("detailModal").style.display = "none";
+            document.getElementById("editModal").style.display = "none";
+        }
+
+        function renderChart() {
+            const ctx = document.getElementById('employeeChart').getContext('2d');
+            const deptCounts = employees.reduce((acc, emp) => {
+                acc[emp.department] = (acc[emp.department] || 0) + 1;
+                return acc;
+            }, {});
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(deptCounts),
+                    datasets: [{
+                        label: 'จำนวนพนักงาน',
+                        data: Object.values(deptCounts),
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        renderChart();
+    </script>
+</body>
+
+</html>

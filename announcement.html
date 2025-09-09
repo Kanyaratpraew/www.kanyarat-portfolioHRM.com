@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ระบบประกาศ</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            padding: 6px 12px;
+            margin-right: 5px;
+        }
+        
+        .announcement-card {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #2196f3;
+            border-radius: 5px;
+        }
+        
+        .announcement-note {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="announcement-header">
+        <h2>📢 ประกาศจากฝ่ายบริหาร</h2>
+        <p>ติดตามข่าวสารและประกาศสำคัญภายในองค์กร</p>
+    </section>
+
+    <section class="announcement-form">
+        <h3>➕ เพิ่มประกาศใหม่</h3>
+        <form id="announcementForm">
+            <label>หัวข้อประกาศ:</label>
+            <input type="text" id="title" required>
+
+            <label>วันที่ประกาศ:</label>
+            <input type="date" id="date" required>
+
+            <label>รายละเอียด:</label>
+            <textarea id="details" rows="3" required></textarea>
+
+            <label>หมายเหตุ (ถ้ามี):</label>
+            <input type="text" id="note">
+
+            <button type="submit">บันทึกประกาศ</button>
+        </form>
+    </section>
+
+    <section class="announcement-list">
+        <h3>📑 รายการประกาศ</h3>
+        <div id="announcementContainer"></div>
+    </section>
+
+    <script>
+        let announcements = [{
+            title: "🎓 แจ้งวันอบรมพนักงานใหม่",
+            date: "15 กันยายน 2025",
+            details: "เวลา: 09.00–12.00 น. | สถานที่: ห้องประชุมใหญ่ ชั้น 3",
+            note: "กรุณาแต่งกายสุภาพและนำบัตรพนักงานติดตัว"
+        }, {
+            title: "💼 เปลี่ยนแปลงนโยบายการลา",
+            date: "1 ตุลาคม 2025",
+            details: "เพิ่มสิทธิการลาพักร้อนจาก 10 เป็น 12 วันต่อปี",
+            note: ""
+        }];
+
+        function renderAnnouncements() {
+            const container = document.getElementById("announcementContainer");
+            container.innerHTML = "";
+
+            announcements.forEach((a, index) => {
+                        const card = document.createElement("article");
+                        card.className = "announcement-card";
+                        card.innerHTML = `
+      <h3>${a.title}</h3>
+      <p>วันที่: ${a.date}</p>
+      <p>${a.details}</p>
+      ${a.note ? `<p class="announcement-note">${a.note}</p>` : ""}
+      <button onclick="deleteAnnouncement(${index})">ลบ</button>
+    `;
+    container.appendChild(card);
+  });
+}
+
+document.getElementById("announcementForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const title = document.getElementById("title").value;
+  const date = document.getElementById("date").value;
+  const details = document.getElementById("details").value;
+  const note = document.getElementById("note").value;
+
+  announcements.push({ title, date, details, note });
+  this.reset();
+  renderAnnouncements();
+});
+
+function deleteAnnouncement(index) {
+  if (confirm("คุณต้องการลบประกาศนี้ใช่หรือไม่?")) {
+    announcements.splice(index, 1);
+    renderAnnouncements();
+  }
+}
+
+renderAnnouncements();
+    </script>
+
+</body>
+
+</html>
